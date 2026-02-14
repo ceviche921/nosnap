@@ -79,5 +79,6 @@ apt install -y flatpak gnome-software-plugin-flatpak >> "$LOG_FILE" 2>&1
 echo "Adding Flathub repository..." | tee -a "$LOG_FILE"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo >> "$LOG_FILE" 2>&1
 
-echo "--- Process completed. Ubuntu is Snap-free and Flatpak-ready. ---" | tee -a "$LOG_FILE"
+echo "--- Process completed. Ubuntu is Snap-free and Flatpak-installed, please do a machine reboot. ---" | tee -a "$LOG_FILE"
+
 echo "--- Log saved at $LOG_FILE ---" | tee -a "$LOG_FILE"
