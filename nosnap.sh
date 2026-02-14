@@ -69,4 +69,15 @@ Pin: release a=*
 Pin-Priority: -10
 EOF
 
-echo "--- Process completed. Ubuntu is Snap-free. ---" | tee -a "$LOG_FILE"
+# NEW: Flatpak and Flathub installation
+echo "--- Starting Flatpak setup ---" | tee -a "$LOG_FILE"
+
+echo "Installing flatpak..." | tee -a "$LOG_FILE"
+apt update >> "$LOG_FILE" 2>&1
+apt install -y flatpak gnome-software-plugin-flatpak >> "$LOG_FILE" 2>&1
+
+echo "Adding Flathub repository..." | tee -a "$LOG_FILE"
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo >> "$LOG_FILE" 2>&1
+
+echo "--- Process completed. Ubuntu is Snap-free and Flatpak-ready. ---" | tee -a "$LOG_FILE"
+echo "--- Log saved at $LOG_FILE ---" | tee -a "$LOG_FILE"
