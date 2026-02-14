@@ -10,10 +10,7 @@ fi
 
 echo "--- Starting Snap purge ---"
 
-# 1. Stop the service to avoid locks
-systemctl stop snapd.service snapd.socket
-
-# 2. Uninstall all installed snaps individually
+# Uninstall all installed snaps individually
 # This is done in a loop because some depend on others
 echo "Removing installed snaps..."
 while [ "$(snap list | wc -l)" -gt 0 ]; do
@@ -24,22 +21,18 @@ while [ "$(snap list | wc -l)" -gt 0 ]; do
     if snap list 2>&1 | grep -q "no snaps installed"; then break; fi
 done
 
-# 3. Unmount snap mount points if residues remain
-echo "Unmounting snap units..."
-umount -fl /var/lib/snapd/snaps/* 2>/dev/null
-
-# 4. Remove the core and the daemon
+# Remove the core and the daemon
 echo "Removing snapd and tools..."
 apt purge -y snapd gnome-software-plugin-snap
 
-# 5. Cleanup of residual directories
+# Cleanup of residual directories
 echo "Cleaning directories..."
 rm -rf /var/lib/snapd
 rm -rf /var/cache/snapd
 rm -rf /root/snap
 rm -rf /home/*/snap
 
-# 6. BLACKLIST: Prevent automatic reinstallation
+# BLACKLIST: Prevent automatic reinstallation
 echo "Creating preference rule to block snapd..."
 cat <<EOF > /etc/apt/preferences.d/nosnap.pref
 Package: snapd
